@@ -1,4 +1,8 @@
+using Library.Domain.Interfaces.Repositories;
+using Library.Domain.Interfaces.Services;
+using Library.Domain.Services;
 using Library.Infrastructure.Contexts;
+using Library.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -22,7 +26,16 @@ namespace Library
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-            services.AddScoped<LibraryDataContext, LibraryDataContext>();
+
+            //Services
+            services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<IBookService, BookService>();
+            services.AddScoped<IBookCategoryService, BookCategoryService>();
+
+            //Repositories
+            services.AddScoped<IAuthorRepository, AuthorRepository>();
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IBookCategoryRepository, BookCategoryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,5 +8,9 @@
     <Folder Include="Entities\" />
     <Folder Include="Enums\" />
     <Folder Include="DTO\" />
+    <Folder Include="Services\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Interfaces\Repositories\" />
+    <Folder Include="Interfaces\Services\" />
   </ItemGroup>
 </Project>

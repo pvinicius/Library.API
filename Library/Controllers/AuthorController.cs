@@ -2,7 +2,7 @@
 using System.Linq;
 using Library.Domain.DTO;
 using Library.Domain.Entities;
-using Library.Infrastructure.Contexts;
+using Library.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,35 +11,25 @@ namespace Library.Controllers
     [Route("api/v1/authors")]
     public class AuthorController : Controller
     {
-        private readonly LibraryDataContext _context;
-
-        public AuthorController(LibraryDataContext context)
+        private readonly IAuthorService _authorService;
+        public AuthorController(IAuthorService authorService)
         {
-            _context = context;
+            _authorService = authorService;
         }
 
         [HttpGet]
-        public IEnumerable<Author> Get()
-        {
-            return _context.Author.AsNoTracking().ToList();
-        }
+        public IEnumerable<Author> Get() => _authorService.GetAll();
 
         [Route("{id}")]
         [HttpGet]
-        public Author Get(int id)
-        {
-            return _context.Author.Where(a => a.AuthorId == id).FirstOrDefault();
-        }
+        public Author Get(int id) => _authorService.Get(id);
+
 
         [HttpPost]
         public Author Post([FromBody]AuthorDTO authorDTO)
         {
             var author = new Author(authorDTO);
-
-            _context.Author.Add(author);
-            _context.SaveChanges();
-
-            return author;
+            return _authorService.Add(author);
         }
 
         [HttpPut("{id}")]
@@ -47,12 +37,8 @@ namespace Library.Controllers
         {
             authorDTO.AuthorId = id;
             var author = new Author(authorDTO);
-            
-            _context.Entry<Author>(author).State = EntityState.Modified;
-            _context.SaveChanges();
 
-            return author;
-
+            return _authorService.Update(author);
         }
 
         [HttpDelete("{id}")]
@@ -61,10 +47,7 @@ namespace Library.Controllers
             authorDTO.AuthorId = id;
             var author = new Author(authorDTO);
 
-            _context.Author.Remove(author);
-            _context.SaveChanges();
-
-            return author;
+            return _authorService.Remove(author);
         }
     }
 }

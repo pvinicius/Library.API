@@ -2,6 +2,7 @@
 using System.Linq;
 using Library.Domain.DTO;
 using Library.Domain.Entities;
+using Library.Domain.Interfaces.Services;
 using Library.Infrastructure.Contexts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,39 +12,24 @@ namespace Library.Controllers
     [Route("api/v1/books")]
     public class BookController : Controller
     {
-        private readonly LibraryDataContext _context;
-
-        public BookController(LibraryDataContext context)
+        private readonly IBookService _bookService;
+        public BookController(IBookService bookService)
         {
-            _context = context;
+            _bookService = bookService;
         }
 
         [HttpGet]
-        public IEnumerable<Book> Get()
-        {
-            return _context.Book
-                    .AsNoTracking()
-                    .ToList();
-        }
+        public IEnumerable<Book> Get() => _bookService.GetAll();
+
 
         [HttpGet("{id}")]
-        public Book Get(int id)
-        {
-            return _context.Book
-                .Where(a => a.BookId == id)
-                .FirstOrDefault();
-        }
+        public Book Get(int id) => _bookService.Get(id);
 
         [HttpPost]
         public Book Post([FromBody]BookDTO bookDTO)
         {
-
             var book = new Book(bookDTO);
-
-            _context.Book.Add(book);
-            _context.SaveChanges();
-
-            return book;
+            return _bookService.Add(book);
         }
 
         [HttpPut("{id}")]
@@ -52,10 +38,7 @@ namespace Library.Controllers
             bookDTO.BookId = id;
             var book = new Book(bookDTO);
 
-            _context.Entry<Book>(book).State = EntityState.Modified;
-            _context.SaveChanges();
-
-            return book;
+            return _bookService.Update(book);
         }
 
         [HttpDelete("{id}")]
@@ -64,10 +47,7 @@ namespace Library.Controllers
             bookDTO.BookId = id;
             var book = new Book(bookDTO);
 
-            _context.Book.Remove(book);
-            _context.SaveChanges();
-
-            return book;
+            return _bookService.Remove(book);
         }
     }
 }
