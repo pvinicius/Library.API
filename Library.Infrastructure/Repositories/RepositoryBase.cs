@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Library.Domain.Interfaces;
+using Library.Domain.DTO;
 using Library.Domain.Interfaces.Repositories;
 using Library.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -12,43 +12,68 @@ namespace Library.Infrastructure.Repositories
     {
         protected LibraryDataContext _context = new LibraryDataContext();
 
-        public TEntity Add(TEntity entity)
+        public Response<TEntity> Add(TEntity entity)
         {
             _context.Set<TEntity>().Add(entity);
             _context.SaveChanges();
 
-            return entity;
+            return new Response<TEntity>
+            {
+                Success = true,
+                Messsage = "",
+                Data = entity
+            };
         }
 
-        public TEntity Get(int id)
+        public Response<TEntity> Get(int id)
         {
-            return _context.Set<TEntity>().Find(id);
+            var entity = _context.Set<TEntity>().Find(id);
+
+            return new Response<TEntity>
+            {
+                Success = true,
+                Messsage = "",
+                Data = entity
+            };
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public Response<TEntity> GetAll()
         {
-            return _context.Set<TEntity>().AsNoTracking().ToList();
+            var entities = _context.Set<TEntity>().AsNoTracking().ToList();
+            return new Response<TEntity>
+            {
+                Success = true,
+                Messsage = "",
+                Data = entities
+            };
         }
 
-        public TEntity Update(TEntity entity)
+        public Response<TEntity> Update(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
 
-            return entity;
+            return new Response<TEntity>
+            {
+                Success = true,
+                Messsage = "",
+                Data = entity
+            };
         }
 
-        public TEntity Remove(TEntity entity)
+        public Response<TEntity> Remove(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
             _context.SaveChanges();
 
-            return entity;
+            return new Response<TEntity>
+            {
+                Success = true,
+                Messsage = "",
+                Data = entity
+            };
         }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+        public void Dispose() { }
     }
 }

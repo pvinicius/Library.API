@@ -19,21 +19,20 @@ namespace Library.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Book> Get() => _bookService.GetAll();
-
+        public Response<Book> Get() => _bookService.GetAll();
 
         [HttpGet("{id}")]
-        public Book Get(int id) => _bookService.Get(id);
+        public Response<Book> Get(int id) => _bookService.Get(id);
 
         [HttpPost]
-        public Book Post([FromBody]BookDTO bookDTO)
+        public Response<Book> Post([FromBody]BookDTO bookDTO)
         {
             var book = new Book(bookDTO);
             return _bookService.Add(book);
         }
 
         [HttpPut("{id}")]
-        public Book Put(int id, [FromBody]BookDTO bookDTO)
+        public Response<Book> Put(int id, [FromBody]BookDTO bookDTO)
         {
             bookDTO.BookId = id;
             var book = new Book(bookDTO);
@@ -42,7 +41,7 @@ namespace Library.Controllers
         }
 
         [HttpDelete("{id}")]
-        public Book Delete(int id, [FromBody] BookDTO bookDTO)
+        public Response<Book> Delete(int id, [FromBody] BookDTO bookDTO)
         {
             bookDTO.BookId = id;
             var book = new Book(bookDTO);

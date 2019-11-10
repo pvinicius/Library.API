@@ -18,26 +18,24 @@ namespace Library.Controllers
         public BookCategoryController(IBookCategoryService bookCategoryService)
         {
             _bookCategoryService = bookCategoryService;
-
         }
 
         [HttpGet]
-        public IEnumerable<BookCategory> Get() => _bookCategoryService.GetAll();
+        public Response<BookCategory> Get() => _bookCategoryService.GetAll();
 
         [Route("{id}")]
         [HttpGet]
-        public BookCategory Get(int id) => _bookCategoryService.Get(id);
-
+        public Response<BookCategory> Get(int id) => _bookCategoryService.Get(id);
 
         [HttpPost]
-        public BookCategory Post([FromBody]BookCategoryDTO bookCategoryDTO)
+        public Response<BookCategory> Post([FromBody]BookCategoryDTO bookCategoryDTO)
         {
             var bookCategory = new BookCategory(bookCategoryDTO);
             return _bookCategoryService.Add(bookCategory);
         }
 
         [HttpPut("{id}")]
-        public BookCategory Put(int id, [FromBody]BookCategoryDTO bookCategoryDTO)
+        public Response<BookCategory> Put(int id, [FromBody]BookCategoryDTO bookCategoryDTO)
         {
             bookCategoryDTO.BookCategoryId = id;
             var bookCategory = new BookCategory(bookCategoryDTO);
@@ -46,7 +44,7 @@ namespace Library.Controllers
         }
 
         [HttpDelete("{id}")]
-        public BookCategory Delete(int id, [FromBody]BookCategoryDTO bookCategoryDTO)
+        public Response<BookCategory> Delete(int id, [FromBody]BookCategoryDTO bookCategoryDTO)
         {
             bookCategoryDTO.BookCategoryId = id;
             var bookCategory = new BookCategory(bookCategoryDTO);
