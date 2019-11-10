@@ -19,4 +19,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Library.Domain\Library.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BookCategory\" />
+    <Folder Include="Const\" />
+    <Folder Include="Author\" />
+    <Folder Include="Book\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="BookCategoryTests.cs" />
+  </ItemGroup>
 </Project>
