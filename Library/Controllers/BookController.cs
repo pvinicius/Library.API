@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Library.Domain.DTO;
+﻿using Library.Domain.DTO;
 using Library.Domain.Entities;
 using Library.Domain.Interfaces.Services;
-using Library.Infrastructure.Contexts;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library.Controllers
 {

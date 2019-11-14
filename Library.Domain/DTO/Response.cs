@@ -1,5 +1,4 @@
-﻿using System;
-namespace Library.Domain.DTO
+﻿namespace Library.Domain.DTO
 {
     public class Response<TEntity>
     {
@@ -9,7 +8,7 @@ namespace Library.Domain.DTO
         }
 
         public bool Success { get; set; }
-        public string Messsage { get; set; }
+        public string Message { get; set; }
         public object Data { get; set; }
     }
 }

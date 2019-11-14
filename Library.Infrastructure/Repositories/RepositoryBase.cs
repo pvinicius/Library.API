@@ -15,12 +15,22 @@ namespace Library.Infrastructure.Repositories
         public Response<TEntity> Add(TEntity entity)
         {
             _context.Set<TEntity>().Add(entity);
-            _context.SaveChanges();
+            int result = _context.SaveChanges();
+
+            if (result == 1)
+            {
+                return new Response<TEntity>
+                {
+                    Success = true,
+                    Message = "Salvo com sucesso!",
+                    Data = entity
+                };
+            }
 
             return new Response<TEntity>
             {
-                Success = true,
-                Messsage = "",
+                Success = false,
+                Message = "Erro ao salvar.",
                 Data = entity
             };
         }
@@ -32,7 +42,7 @@ namespace Library.Infrastructure.Repositories
             return new Response<TEntity>
             {
                 Success = true,
-                Messsage = "",
+                Message = "",
                 Data = entity
             };
         }
@@ -43,7 +53,7 @@ namespace Library.Infrastructure.Repositories
             return new Response<TEntity>
             {
                 Success = true,
-                Messsage = "",
+                Message = "",
                 Data = entities
             };
         }
@@ -51,12 +61,22 @@ namespace Library.Infrastructure.Repositories
         public Response<TEntity> Update(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            _context.SaveChanges();
+            int result = _context.SaveChanges();
+
+            if (result == 1)
+            {
+                return new Response<TEntity>
+                {
+                    Success = true,
+                    Message = "Atualizo com sucesso!",
+                    Data = entity
+                };
+            }
 
             return new Response<TEntity>
             {
-                Success = true,
-                Messsage = "",
+                Success = false,
+                Message = "Erro ao atualizar.",
                 Data = entity
             };
         }
@@ -64,12 +84,22 @@ namespace Library.Infrastructure.Repositories
         public Response<TEntity> Remove(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
-            _context.SaveChanges();
+            int result = _context.SaveChanges();
+
+            if (result == 1)
+            {
+                return new Response<TEntity>
+                {
+                    Success = true,
+                    Message = "Removido com sucesso!",
+                    Data = entity
+                };
+            }
 
             return new Response<TEntity>
             {
                 Success = true,
-                Messsage = "",
+                Message = "Erro ao remover.",
                 Data = entity
             };
         }

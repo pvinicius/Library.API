@@ -1,5 +1,4 @@
-﻿using System;
-namespace Library.Domain.DTO
+﻿namespace Library.Domain.DTO
 {
     public class BookCategoryDTO
     {
