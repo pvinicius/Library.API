@@ -9,24 +9,24 @@ namespace Library.XUnitTest.BookCategory
     [Collection(nameof(BookCategoryCollection))]
     public class BookCategoryTests
     {
-        
+
         private readonly BookCategoryTestsFixture _bookCategoryTestsFixture;
 
         public BookCategoryTests(BookCategoryTestsFixture bookCategoryTestsFixture)
         {
             _bookCategoryTestsFixture = bookCategoryTestsFixture;
         }
-        
+
 
         [Fact(DisplayName = "Create Book Category")]
         public void BookCategory_NewBookCategory_ShouldValid()
         {
-            
+
             //Arrange
             var bookCategory = _bookCategoryTestsFixture.GenerateBookCategories().FirstOrDefault();
 
             var mocker = new AutoMocker();
-            mocker.GetMock<IBookCategoryRepository>().Setup(s => s.Add(bookCategory)).Returns(bookCategory);
+            mocker.GetMock<IBookCategoryRepository>().Setup(s => s.Add(bookCategory)).Returns(() => null);
 
             var _bookCategoryService = mocker.CreateInstance<BookCategoryService>();
 
@@ -44,7 +44,7 @@ namespace Library.XUnitTest.BookCategory
             var bookCategory = _bookCategoryTestsFixture.GenerateBookCategories().FirstOrDefault();
 
             var mocker = new AutoMocker();
-            mocker.GetMock<IBookCategoryRepository>().Setup(s => s.Update(bookCategory)).Returns(bookCategory);
+            mocker.GetMock<IBookCategoryRepository>().Setup(s => s.Update(bookCategory)).Returns(() => null);
 
             var _bookCategoryService = mocker.CreateInstance<BookCategoryService>();
 
@@ -62,7 +62,7 @@ namespace Library.XUnitTest.BookCategory
             var bookCategory = _bookCategoryTestsFixture.GenerateBookCategories().FirstOrDefault();
 
             var mocker = new AutoMocker();
-            mocker.GetMock<IBookCategoryRepository>().Setup(s => s.Remove(bookCategory)).Returns(bookCategory);
+            mocker.GetMock<IBookCategoryRepository>().Setup(s => s.Remove(bookCategory)).Returns(() => null);
 
             var _bookCategoryService = mocker.CreateInstance<BookCategoryService>();
 

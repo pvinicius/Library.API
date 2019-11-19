@@ -1,3 +1,5 @@
+using System;
+using Library.Domain.Entities;
 using Library.Domain.Interfaces.Repositories;
 using Library.Domain.Interfaces.Services;
 using Library.Domain.Services;
@@ -5,7 +7,7 @@ using Library.Infrastructure.Contexts;
 using Library.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +27,10 @@ namespace Library
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<LibraryDataContext>()
+                .AddDefaultTokenProviders();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             //Services
@@ -47,6 +53,8 @@ namespace Library
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
