@@ -10,6 +10,7 @@ namespace Library.Domain.Entities
         public Author(Author author)
         {
             AuthorId = author.AuthorId;
+
             Name = author.Name;
         }
 
