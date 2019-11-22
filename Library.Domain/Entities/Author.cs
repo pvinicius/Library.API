@@ -1,5 +1,4 @@
-﻿using System;
-using Library.Domain.DTO;
+﻿using Library.Domain.DTO;
 
 namespace Library.Domain.Entities
 {
