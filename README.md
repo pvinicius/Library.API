@@ -1,6 +1,6 @@
-# Library
+# Projeto
 
-One Paragraph of project description goes here
+O **Empresta aê** é um projeto que visa conectar pessoas queiram trocar livros.
 
 ## Getting Started
 
