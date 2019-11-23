@@ -1,11 +1,14 @@
 ﻿using System.Linq;
+using Library.Domain.DTO;
 using Library.Domain.Interfaces.Repositories;
 using Library.Domain.Services;
 using Moq.AutoMock;
 using Xunit;
-/*
+
 namespace Library.XUnitTest.Book
 {
+    using Domain.Entities;
+
     [Collection(nameof(BookCollection))]
     public class BookTests
     {
@@ -21,9 +24,15 @@ namespace Library.XUnitTest.Book
         {
             //Arrange
             var book = _bookTestsFixture.GenerateBooks().FirstOrDefault();
+            var response = new Response<Book>()
+            {
+                Success = true,
+                Message = "",
+                Data = book
+            };
 
             var mocker = new AutoMocker();
-            mocker.GetMock<IBookRepository>().Setup(s => s.Add(book)).Returns(() => null);
+            mocker.GetMock<IBookRepository>().Setup(s => s.Add(book)).Returns(() => response);
 
             var _bookService = mocker.CreateInstance<BookService>();
 
@@ -31,7 +40,7 @@ namespace Library.XUnitTest.Book
             var actual = _bookService.Add(book);
 
             //Assert
-            Assert.Same(book, actual);
+            Assert.Same(book, actual.Data);
         }
 
         [Fact(DisplayName = "Update Book")]
@@ -39,9 +48,15 @@ namespace Library.XUnitTest.Book
         {
             //Arrange
             var book = _bookTestsFixture.GenerateBooks().FirstOrDefault();
+            var response = new Response<Book>()
+            {
+                Success = true,
+                Message = "",
+                Data = book
+            };
 
             var mocker = new AutoMocker();
-            mocker.GetMock<IBookRepository>().Setup(s => s.Update(book)).Returns(() => null);
+            mocker.GetMock<IBookRepository>().Setup(s => s.Update(book)).Returns(() => response);
 
             var _bookService = mocker.CreateInstance<BookService>();
 
@@ -49,7 +64,7 @@ namespace Library.XUnitTest.Book
             var actual = _bookService.Update(book);
 
             //Assert
-            Assert.Same(book, actual);
+            Assert.Same(book, actual.Data);
         }
 
         [Fact(DisplayName = "Delete Book")]
@@ -57,9 +72,15 @@ namespace Library.XUnitTest.Book
         {
             //Arrange
             var book = _bookTestsFixture.GenerateBooks().FirstOrDefault();
+            var response = new Response<Book>()
+            {
+                Success = true,
+                Message = "",
+                Data = book
+            };
 
             var mocker = new AutoMocker();
-            mocker.GetMock<IBookRepository>().Setup(s => s.Remove(book)).Returns(() => null);
+            mocker.GetMock<IBookRepository>().Setup(s => s.Remove(book)).Returns(() => response);
 
             var _bookService = mocker.CreateInstance<BookService>();
 
@@ -67,9 +88,8 @@ namespace Library.XUnitTest.Book
             var actual = _bookService.Remove(book);
 
             //Assert
-            Assert.Same(book, actual);
+            Assert.Same(book, actual.Data);
         }
 
     }
 }
-*/
