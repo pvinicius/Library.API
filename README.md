@@ -1,6 +1,6 @@
 # Projeto
 
-O **Empresta aê** é um projeto que visa conectar pessoas queiram trocar livros.
+O **Empresta aê** é um projeto que visa conectar pessoas que queiram trocar livros.
 
 ## Getting Started
 
