@@ -15,6 +15,7 @@ namespace Library.Infrastructure.Contexts
 
         public LibraryDataContext()
         {
+
         }
 
         public LibraryDataContext(DbContextOptions<LibraryDataContext> options)
@@ -22,7 +23,6 @@ namespace Library.Infrastructure.Contexts
         {
 
         }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

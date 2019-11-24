@@ -1,10 +1,12 @@
 ﻿using Library.Domain.DTO;
 using Library.Domain.Entities;
 using Library.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers
 {
+    [Authorize]
     [Route("api/v1/authors")]
     public class AuthorController : Controller
     {

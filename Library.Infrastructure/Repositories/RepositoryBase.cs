@@ -98,7 +98,7 @@ namespace Library.Infrastructure.Repositories
 
             return new Response<TEntity>
             {
-                Success = true,
+                Success = false,
                 Message = "Erro ao remover.",
                 Data = entity
             };
