@@ -34,21 +34,9 @@ namespace Library.Domain.Services
             if (signInResult.Succeeded)
             {
                 var token = GenerateJwt();
-
-                return new Response<ApplicationUser>
-                {
-                    Success = true,
-                    Message = "Logado com sucesso!",
-                    Data = token
-                };
+                return new Response<ApplicationUser>(success: true, message: "Logado com sucesso!", data: token);
             }
-
-            return new Response<ApplicationUser>
-            {
-                Success = false,
-                Message = "Erro ao logar.",
-                Data = signInResult
-            };
+            return new Response<ApplicationUser>(success: false, message: "Erro ao logar.", data: signInResult);
         }
 
         public async Task<Response<ApplicationUser>> Add(ApplicationUser applicationUser)
@@ -56,19 +44,9 @@ namespace Library.Domain.Services
             var identityResult = await _userManager.CreateAsync(applicationUser, applicationUser.PasswordHash);
 
             if (identityResult.Succeeded)
-                return new Response<ApplicationUser>
-                {
-                    Success = true,
-                    Message = "Usuário criado com sucesso!",
-                    Data = applicationUser.UserName
-                };
+                return new Response<ApplicationUser>(success: true, message: "Usuário criado com sucesso!", data: applicationUser.UserName);
 
-            return new Response<ApplicationUser>
-            {
-                Success = false,
-                Message = "Erro ao criar o usuário",
-                Data = identityResult.Errors
-            };
+            return new Response<ApplicationUser>(success: true, message: "Erro ao criar o usuário.", data: identityResult.Errors);
         }
 
         public async Task<List<Response<ApplicationUser>>> Update(ApplicationUser applicationUser)
@@ -96,18 +74,7 @@ namespace Library.Domain.Services
         public async Task<Response<ApplicationUser>> Get(int id)
         {
             var applicationUser = await _userManager.FindByIdAsync(id.ToString());
-
-            return new Response<ApplicationUser>
-            {
-                Success = true,
-                Message = "Ok",
-                Data = applicationUser
-            };
-        }
-
-        public Response<ApplicationUser> GetAll()
-        {
-            throw new NotImplementedException();
+            return new Response<ApplicationUser>(success: true, message: "Ok", data: applicationUser);
         }
 
         public async Task<Response<ApplicationUser>> Remove(int id)

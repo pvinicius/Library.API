@@ -18,20 +18,11 @@ namespace Library.Controllers
             _applicationUserService = applicationUserService;
         }
 
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            //TODO
-            return new string[] { "value1", "value2" };
-        }
-
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Task<Response<ApplicationUser>> Get(int id)
         {
-            //TODO
-            return "value";
+            return _applicationUserService.Get(id);
         }
 
         // POST api/values

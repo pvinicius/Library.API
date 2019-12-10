@@ -18,8 +18,6 @@ namespace Library.Domain.Interfaces.Services
 
         Task<Response<ApplicationUser>> Get(int id);
 
-        Response<ApplicationUser> GetAll();
-
         void Dispose();
     }
 }
