@@ -9,11 +9,17 @@ namespace Library.Domain.Interfaces.Services
     public interface IApplicationUserService
     {
         Task<Response<ApplicationUser>> Add(ApplicationUser entity);
+
         Task<List<Response<ApplicationUser>>> Update(ApplicationUser entity);
-        Response<ApplicationUser> Remove(ApplicationUser entity);
+
+        Task<Response<ApplicationUser>> Remove(int id);
+
         Task<Response<ApplicationUser>> Login(ApplicationUser user);
-        Response<ApplicationUser> Get(int id);
+
+        Task<Response<ApplicationUser>> Get(int id);
+
         Response<ApplicationUser> GetAll();
+
         void Dispose();
     }
 }

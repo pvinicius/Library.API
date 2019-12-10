@@ -1,11 +1,13 @@
 ﻿using Library.Domain.DTO;
 using Library.Domain.Entities;
 using Library.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers
 {
     [Route("api/v1/books")]
+    [Authorize("Bearer")]
     public class BookController : Controller
     {
         private readonly IBookService _bookService;

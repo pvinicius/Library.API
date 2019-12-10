@@ -1,10 +1,14 @@
 using System;
+using System.Text;
 using Library.Domain.Entities;
 using Library.Domain.Interfaces.Repositories;
 using Library.Domain.Interfaces.Services;
 using Library.Domain.Services;
+using Library.Domain.Util;
 using Library.Infrastructure.Contexts;
 using Library.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +17,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using StackExchange.Profiling;
 
 namespace Library
 {
@@ -34,6 +40,16 @@ namespace Library
                 options.UseSqlServer(connection)
             );
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Library API", Version = "v1" });
+            });
+
+            services.AddMiniProfiler(options =>
+            {
+                options.RouteBasePath = "/profiler";
+            }).AddEntityFramework();
+
             services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<LibraryDataContext>()
                 .AddDefaultTokenProviders();
@@ -53,7 +69,39 @@ namespace Library
                 options.SlidingExpiration = true;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            //JWT
+            var appSettingsSection = _configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            // Ativa o uso do token como forma de autorizar o acesso
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
+                    .RequireAuthenticatedUser().Build());
+            });
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = true;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = appSettings.ValidOn,
+                    ValidIssuer = appSettings.Issuer
+                };
+            });
 
             //Services
             services.AddScoped<IAuthorService, AuthorService>();
@@ -65,6 +113,8 @@ namespace Library
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IBookCategoryRepository, BookCategoryRepository>();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,9 +125,13 @@ namespace Library
 
             app.UseHttpsRedirection();
 
-            app.UseRouting();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
+            });
 
-            app.UseAuthentication();
+            app.UseRouting();
 
             app.UseAuthorization();
 
@@ -85,6 +139,7 @@ namespace Library
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

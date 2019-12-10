@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Library.Controllers
 {
     [Route("api/v1/application-users")]
+    [Authorize("Bearer")]
     public class ApplicationUserController : Controller
     {
         private readonly IApplicationUserService _applicationUserService;
@@ -18,10 +19,10 @@ namespace Library.Controllers
         }
 
         // GET: api/values
-        [Authorize]
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            //TODO
             return new string[] { "value1", "value2" };
         }
 
@@ -29,6 +30,7 @@ namespace Library.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
+            //TODO
             return "value";
         }
 
@@ -42,6 +44,7 @@ namespace Library.Controllers
 
         [HttpPost]
         [Route("login")]
+        [AllowAnonymous]
         public Task<Response<ApplicationUser>> Login([FromBody] ApplicationUserDTO applicationUserDTO)
         {
             var applicationUser = new ApplicationUser(applicationUserDTO);
@@ -58,8 +61,9 @@ namespace Library.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public Task<Response<ApplicationUser>> Delete(int id)
         {
+            return _applicationUserService.Remove(id);
         }
     }
 }
