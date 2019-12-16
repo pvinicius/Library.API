@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Library.Controllers
 {
     [Route("api/v1/authors")]
-    [Authorize("Bearer")]
+    [Authorize(Policy = "Administrator")]
     public class AuthorController : Controller
     {
         private readonly IAuthorService _authorService;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Library.Domain.DTO;
@@ -10,6 +11,8 @@ using Library.Domain.Util;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace Library.Domain.Services
 {
@@ -28,12 +31,15 @@ namespace Library.Domain.Services
             _appSettings = appSettings.Value;
         }
 
-        public async Task<Response<ApplicationUser>> Login(ApplicationUser user)
+        public async Task<Response<ApplicationUser>> Login(ApplicationUser applicationUser)
         {
-            var signInResult = await _signInManager.PasswordSignInAsync(user.UserName, user.PasswordHash, false, true);
+            var signInResult = await _signInManager.PasswordSignInAsync(applicationUser.UserName, applicationUser.PasswordHash, false, true);
             if (signInResult.Succeeded)
             {
-                var token = GenerateJwt();
+                var user = await _userManager.FindByEmailAsync(applicationUser.Email);
+                var userRole = await _userManager.GetRolesAsync(user);
+                var token = GenerateJwt(userRole.FirstOrDefault());
+
                 return new Response<ApplicationUser>(success: true, message: "Logado com sucesso!", data: token);
             }
             return new Response<ApplicationUser>(success: false, message: "Erro ao logar.", data: signInResult);
@@ -101,13 +107,17 @@ namespace Library.Domain.Services
         }
 
         #region private methods
-        private string GenerateJwt()
+        private string GenerateJwt(string role)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Role, role)
+                }),
                 Issuer = _appSettings.Issuer,
                 Audience = _appSettings.ValidOn,
                 Expires = DateTime.UtcNow.AddHours(_appSettings.ExpirationHour),

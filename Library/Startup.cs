@@ -69,6 +69,7 @@ namespace Library
                 options.SlidingExpiration = true;
             });
 
+
             //JWT
             var appSettingsSection = _configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -76,11 +77,12 @@ namespace Library
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
-            // Ativa o uso do token como forma de autorizar o acesso
+            // Ativa token e perfil de acesso.
             services.AddAuthorization(auth =>
             {
-                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
+                auth.AddPolicy("Administrator", new AuthorizationPolicyBuilder()
+                    .RequireRole("Admin")
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser().Build());
             });
 

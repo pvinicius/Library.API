@@ -9,13 +9,22 @@ using Microsoft.AspNetCore.Mvc;
 namespace Library.Controllers
 {
     [Route("api/v1/application-users")]
-    [Authorize("Bearer")]
+    [Authorize("Administrator")]
     public class ApplicationUserController : Controller
     {
         private readonly IApplicationUserService _applicationUserService;
         public ApplicationUserController(IApplicationUserService applicationUserService)
         {
             _applicationUserService = applicationUserService;
+        }
+
+        [HttpPost]
+        [Route("login")]
+        [AllowAnonymous]
+        public Task<Response<ApplicationUser>> Login([FromBody] ApplicationUserDTO applicationUserDTO)
+        {
+            var applicationUser = new ApplicationUser(applicationUserDTO);
+            return _applicationUserService.Login(applicationUser);
         }
 
         // GET api/values/5
@@ -31,15 +40,6 @@ namespace Library.Controllers
         {
             var applicationUser = new ApplicationUser(applicationUserDTO);
             return _applicationUserService.Add(applicationUser);
-        }
-
-        [HttpPost]
-        [Route("login")]
-        [AllowAnonymous]
-        public Task<Response<ApplicationUser>> Login([FromBody] ApplicationUserDTO applicationUserDTO)
-        {
-            var applicationUser = new ApplicationUser(applicationUserDTO);
-            return _applicationUserService.Login(applicationUser);
         }
 
         // PUT api/values/5

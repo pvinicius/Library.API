@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Library.Controllers
 {
     [Route("api/v1/books")]
-    [Authorize("Bearer")]
+    [Authorize("Administrator")]
     public class BookController : Controller
     {
         private readonly IBookService _bookService;
