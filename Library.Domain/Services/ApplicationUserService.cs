@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace Library.Domain.Services
 {
@@ -43,6 +42,44 @@ namespace Library.Domain.Services
                 return new Response<ApplicationUser>(success: true, message: "Logado com sucesso!", data: token);
             }
             return new Response<ApplicationUser>(success: false, message: "Erro ao logar.", data: signInResult);
+        }
+
+        public async Task<Response<ApplicationUser>> LoginFacebook(ApplicationUser applicationUser)
+        {
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return new Response<ApplicationUser>
+                {
+                    Success = false,
+                    Message = "",
+                    Data = info
+                };
+            }
+
+            var result = await _userManager.AddLoginAsync(applicationUser, info);
+            if (result.Succeeded)
+            {
+                foreach (var token in info.AuthenticationTokens)
+                {
+                    await _userManager.SetAuthenticationTokenAsync(applicationUser, info.LoginProvider, token.Name, token.Value);
+                }
+
+                await _signInManager.SignInAsync(applicationUser, isPersistent: true);
+                return new Response<ApplicationUser>
+                {
+                    Success = true,
+                    Message = "",
+                    Data = applicationUser
+                };
+            }
+
+            return new Response<ApplicationUser>
+            {
+                Success = false,
+                Message = "",
+                Data = result.Errors
+            };
         }
 
         public async Task<Response<ApplicationUser>> Add(ApplicationUser applicationUser)

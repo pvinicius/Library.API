@@ -1,4 +1,5 @@
 using System;
+using System.Security.Claims;
 using System.Text;
 using Library.Domain.Entities;
 using Library.Domain.Interfaces.Repositories;
@@ -7,6 +8,7 @@ using Library.Domain.Services;
 using Library.Domain.Util;
 using Library.Infrastructure.Contexts;
 using Library.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -54,6 +56,13 @@ namespace Library
                 .AddEntityFrameworkStores<LibraryDataContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = _configuration["Facebook:AppId"];
+                facebookOptions.AppSecret = _configuration["Facebook:AppSecret"];
+                facebookOptions.SaveTokens = true;
+            });
+
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -68,7 +77,6 @@ namespace Library
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
                 options.SlidingExpiration = true;
             });
-
 
             //JWT
             var appSettingsSection = _configuration.GetSection("AppSettings");

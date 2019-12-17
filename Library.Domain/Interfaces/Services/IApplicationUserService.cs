@@ -14,7 +14,9 @@ namespace Library.Domain.Interfaces.Services
 
         Task<Response<ApplicationUser>> Remove(int id);
 
-        Task<Response<ApplicationUser>> Login(ApplicationUser user);
+        Task<Response<ApplicationUser>> Login(ApplicationUser applicationUser);
+
+        Task<Response<ApplicationUser>> LoginFacebook(ApplicationUser applicationUser);
 
         Task<Response<ApplicationUser>> Get(int id);
 

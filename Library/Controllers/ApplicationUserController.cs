@@ -4,6 +4,7 @@ using Library.Domain.DTO;
 using Library.Domain.Entities;
 using Library.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers
@@ -13,18 +14,36 @@ namespace Library.Controllers
     public class ApplicationUserController : Controller
     {
         private readonly IApplicationUserService _applicationUserService;
-        public ApplicationUserController(IApplicationUserService applicationUserService)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        public ApplicationUserController(IApplicationUserService applicationUserService, SignInManager<ApplicationUser> signInManager)
         {
             _applicationUserService = applicationUserService;
+            _signInManager = signInManager;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("login")]
         [AllowAnonymous]
         public Task<Response<ApplicationUser>> Login([FromBody] ApplicationUserDTO applicationUserDTO)
         {
             var applicationUser = new ApplicationUser(applicationUserDTO);
             return _applicationUserService.Login(applicationUser);
+        }
+
+        [HttpGet]
+        [Route("login-facebook")]
+        [AllowAnonymous]
+        public IActionResult LoginFacebook()
+        {
+            //TODO
+            string returnUrl = null;
+            string provider = "Facebook";
+
+            var redirectUrl = Url.Action("ExternalLoginCallBack", "Account", new { returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
+            return Challenge(properties, provider);
         }
 
         // GET api/values/5
