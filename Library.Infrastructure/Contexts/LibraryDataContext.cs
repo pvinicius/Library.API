@@ -26,7 +26,7 @@ namespace Library.Infrastructure.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=localhost, 1433; Database=Library; Integrated Security=true; Trusted_Connection=false; User ID=SA;Password=reallyStrongPwd123;");
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-RG4EOGV;Initial Catalog=Library;Integrated Security=True;Pooling=False");
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
