@@ -1,4 +1,6 @@
-﻿namespace Library.Domain.DTO
+﻿using System;
+
+namespace Library.Domain.DTO
 {
     public class BookDTO
     {
@@ -10,5 +12,6 @@
         public string Name { get; set; }
         public int AuthorId { get; set; }
         public int BookCategoryId { get; set; }
+        public Guid ApplicationUserId { get; set; }
     }
 }

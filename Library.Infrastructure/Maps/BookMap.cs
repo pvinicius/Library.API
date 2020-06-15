@@ -13,9 +13,11 @@ namespace Library.Infrastructure.Maps
             builder.HasKey(x => x.BookId);
             builder.HasOne(x => x.Author);
             builder.HasOne(x => x.BookCategory);
+            builder.HasOne(x => x.ApplicationUser);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(120).HasColumnType("varchar(120)");
             builder.Property(x => x.AuthorId).IsRequired();
             builder.Property(x => x.BookCategoryId).IsRequired();
+            builder.Property(x => x.ApplicationUserId).IsRequired();
         }
     }
 }
