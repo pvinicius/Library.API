@@ -22,7 +22,7 @@ namespace Library.Controllers
             _signInManager = signInManager;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("login")]
         [AllowAnonymous]
         public Task<Response<ApplicationUser>> Login([FromBody] ApplicationUserDTO applicationUserDTO)
@@ -55,7 +55,8 @@ namespace Library.Controllers
 
         // POST api/values
         [HttpPost]
-        public Task<Response<ApplicationUser>> Post([FromBody]ApplicationUserDTO applicationUserDTO)
+        [AllowAnonymous]
+        public Task<Response<ApplicationUser>> Post([FromBody] ApplicationUserDTO applicationUserDTO)
         {
             var applicationUser = new ApplicationUser(applicationUserDTO);
             return _applicationUserService.Add(applicationUser);
@@ -63,7 +64,7 @@ namespace Library.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public Task<List<Response<ApplicationUser>>> Put(int id, [FromBody]ApplicationUserDTO applicationUserDTO)
+        public Task<List<Response<ApplicationUser>>> Put(int id, [FromBody] ApplicationUserDTO applicationUserDTO)
         {
             var applicationUser = new ApplicationUser(applicationUserDTO);
             return _applicationUserService.Update(applicationUser);

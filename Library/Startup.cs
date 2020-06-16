@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Library.Domain.Entities;
@@ -20,6 +22,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using StackExchange.Profiling;
 
 namespace Library
@@ -77,15 +80,15 @@ namespace Library
             }).AddEntityFramework();
 
             services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
-                .AddEntityFrameworkStores<LibraryDataContext>()
-                .AddDefaultTokenProviders();
+                        .AddEntityFrameworkStores<LibraryDataContext>()
+                        .AddDefaultTokenProviders();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
-            {
-                facebookOptions.AppId = _configuration["Facebook:AppId"];
-                facebookOptions.AppSecret = _configuration["Facebook:AppSecret"];
-                facebookOptions.SaveTokens = true;
-            });
+                    {
+                        facebookOptions.AppId = _configuration["Facebook:AppId"];
+                        facebookOptions.AppSecret = _configuration["Facebook:AppSecret"];
+                        facebookOptions.SaveTokens = true;
+                    });
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -111,12 +114,12 @@ namespace Library
 
             // Ativa token e perfil de acesso.
             services.AddAuthorization(auth =>
-            {
-                auth.AddPolicy("Administrator", new AuthorizationPolicyBuilder()
-                    .RequireRole("Admin")
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser().Build());
-            });
+                        {
+                            auth.AddPolicy("Administrator", new AuthorizationPolicyBuilder()
+                                .RequireRole("Admin")
+                                .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                                .RequireAuthenticatedUser().Build());
+                        });
 
             services.AddAuthentication(x =>
             {
