@@ -20,7 +20,7 @@ namespace Library.XUnitTest.Author
         {
             var authorFaker = new Faker<Author>(Locales.PT_BR)
                 .StrictMode(true)
-                .RuleFor(x => x..IId, y => y.Random.Number(0, int.MaxValue))
+                .RuleFor(x => x.Id, y => y.Random.Number(0, int.MaxValue))
                 .RuleFor(x => x.Name, y => string.Format("{0}, {1}", y.Name.LastName(), y.Name.FirstName()));
 
             return authorFaker.Generate(quantity);
