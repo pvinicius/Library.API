@@ -10,7 +10,7 @@ namespace Library.Infrastructure.Maps
         public void Configure(EntityTypeBuilder<Book> builder)
         {
             builder.ToTable("Book");
-            builder.HasKey(x => x.BookId);
+            builder.HasKey(x => x.Id);
             builder.HasOne(x => x.Author);
             builder.HasOne(x => x.BookCategory);
             builder.HasOne(x => x.ApplicationUser);

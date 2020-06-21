@@ -10,7 +10,7 @@ namespace Library.Infrastructure.Maps
         public void Configure(EntityTypeBuilder<BookCategory> builder)
         {
             builder.ToTable("BookCategory");
-            builder.HasKey(x => x.BookCategoryId);
+            builder.HasKey(x => x.Id);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(120).HasColumnType("varchar(120)");
         }
     }

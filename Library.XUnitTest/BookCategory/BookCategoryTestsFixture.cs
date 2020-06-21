@@ -19,7 +19,7 @@ namespace Library.XUnitTest.BookCategory
         {
             var bookCategoryFaker = new Faker<BookCategory>(Locales.PT_BR)
                 .StrictMode(true)
-                .RuleFor(x => x.BookCategoryId, y => y.Random.Number(0, int.MaxValue))
+                .RuleFor(x => x.Id, y => y.Random.Number(0, int.MaxValue))
                 .RuleFor(x => x.Name, y => y.Lorem.Word());
 
             return bookCategoryFaker.Generate(quantity);

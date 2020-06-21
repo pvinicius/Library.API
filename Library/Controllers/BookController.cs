@@ -32,7 +32,7 @@ namespace Library.Controllers
         [HttpPut("{id}")]
         public Response<Book> Put(int id, [FromBody]BookDTO bookDTO)
         {
-            bookDTO.BookId = id;
+            bookDTO..IId = id;
             var book = new Book(bookDTO);
 
             return _bookService.Update(book);
@@ -41,7 +41,7 @@ namespace Library.Controllers
         [HttpDelete("{id}")]
         public Response<Book> Delete(int id, [FromBody] BookDTO bookDTO)
         {
-            bookDTO.BookId = id;
+            bookDTO..IId = id;
             var book = new Book(bookDTO);
 
             return _bookService.Remove(book);

@@ -8,16 +8,16 @@ namespace Library.Domain.Entities
     {
         public Book() { }
 
-        public Book(BookDTO bookDTO)
+        public Book(int id, string name, int authorId, int bookCategoryId, Guid applicationUserId)
         {
-            BookId = bookDTO.BookId;
-            Name = bookDTO.Name;
-            AuthorId = bookDTO.AuthorId;
-            BookCategoryId = bookDTO.BookCategoryId;
-            ApplicationUserId = bookDTO.ApplicationUserId;
+            Id = id;
+            Name = name;
+            AuthorId = authorId;
+            BookCategoryId = bookCategoryId;
+            ApplicationUserId = applicationUserId;
         }
 
-        public int BookId { get; private set; }
+        public int Id { get; private set; }
         public string Name { get; private set; }
         public int AuthorId { get; private set; }
         public int BookCategoryId { get; private set; }

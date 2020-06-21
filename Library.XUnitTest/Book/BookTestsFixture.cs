@@ -22,7 +22,7 @@ namespace Library.XUnitTest.Book
         {
             var bookFaker = new Faker<Book>(Locales.PT_BR)
                 .StrictMode(true)
-                .RuleFor(x => x.BookId, y => y.Random.Number(1, int.MaxValue))
+                .RuleFor(x => x..IId, y => y.Random.Number(1, int.MaxValue))
                 .RuleFor(x => x.Name, y => y.Lorem.Word())
                 .RuleFor(x => x.AuthorId, y => y.Random.Number(1, int.MaxValue))
                 .RuleFor(x => x.Author, new Author())

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Library.Domain.DTO;
 using Library.Domain.Entities;
@@ -27,7 +28,7 @@ namespace Library.Controllers
         [AllowAnonymous]
         public Task<Response<ApplicationUser>> Login([FromBody] ApplicationUserDTO applicationUserDTO)
         {
-            var applicationUser = new ApplicationUser(applicationUserDTO);
+            var applicationUser = new ApplicationUser(applicationUserDTO.Id, applicationUserDTO.UserName, applicationUserDTO.Email, applicationUserDTO.PasswordHash);
             return _applicationUserService.Login(applicationUser);
         }
 
@@ -58,15 +59,15 @@ namespace Library.Controllers
         [AllowAnonymous]
         public Task<Response<ApplicationUser>> Post([FromBody] ApplicationUserDTO applicationUserDTO)
         {
-            var applicationUser = new ApplicationUser(applicationUserDTO);
+            var applicationUser = new ApplicationUser(applicationUserDTO.Id, applicationUserDTO.UserName, applicationUserDTO.Email, applicationUserDTO.PasswordHash);
             return _applicationUserService.Add(applicationUser);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public Task<List<Response<ApplicationUser>>> Put(int id, [FromBody] ApplicationUserDTO applicationUserDTO)
+        public Task<List<Response<ApplicationUser>>> Put(Guid id, [FromBody] ApplicationUserDTO applicationUserDTO)
         {
-            var applicationUser = new ApplicationUser(applicationUserDTO);
+            var applicationUser = new ApplicationUser(id, applicationUserDTO.UserName, applicationUserDTO.Email, applicationUserDTO.PasswordHash);
             return _applicationUserService.Update(applicationUser);
         }
 

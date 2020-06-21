@@ -9,13 +9,13 @@ namespace Library.Domain.Entities
         {
         }
 
-        public BookCategory(BookCategoryDTO bookCategoryDTO)
+        public BookCategory(int id, string name)
         {
-            BookCategoryId = bookCategoryDTO.BookCategoryId;
-            Name = bookCategoryDTO.Name;
+            Id = id;
+            Name = name;
         }
 
-        public int BookCategoryId { get; private set; }
+        public int Id { get; private set; }
         public string Name { get; private set; }
     }
 }

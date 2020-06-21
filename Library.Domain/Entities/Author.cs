@@ -1,6 +1,4 @@
-﻿using Library.Domain.DTO;
-
-namespace Library.Domain.Entities
+﻿namespace Library.Domain.Entities
 {
     public class Author
     {
@@ -8,17 +6,17 @@ namespace Library.Domain.Entities
 
         public Author(Author author)
         {
-            AuthorId = author.AuthorId;
+            Id = author.Id;
             Name = author.Name;
         }
 
-        public Author(AuthorDTO authorDTO)
+        public Author(int id, string name)
         {
-            AuthorId = authorDTO.AuthorId;
-            Name = authorDTO.Name;
+            Id = id;
+            Name = name;
         }
 
-        public int AuthorId { get; private set; }
+        public int Id { get; private set; }
         public string Name { get; private set; }
     }
 }

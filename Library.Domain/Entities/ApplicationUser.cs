@@ -1,5 +1,4 @@
-﻿using Library.Domain.DTO;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 
 namespace Library.Domain.Entities
@@ -11,12 +10,12 @@ namespace Library.Domain.Entities
 
         }
 
-        public ApplicationUser(ApplicationUserDTO applicationUserDTO)
+        public ApplicationUser(Guid id, string userName, string email, string passwordHash)
         {
-            Id = applicationUserDTO.Id;
-            UserName = applicationUserDTO.UserName;
-            Email = applicationUserDTO.Email;
-            PasswordHash = applicationUserDTO.PasswordHash;
+            Id = id;
+            UserName = userName;
+            Email = email;
+            PasswordHash = passwordHash;
         }
     }
 }

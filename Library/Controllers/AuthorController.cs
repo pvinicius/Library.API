@@ -26,15 +26,14 @@ namespace Library.Controllers
         [HttpPost]
         public Response<Author> Post([FromBody]AuthorDTO authorDTO)
         {
-            var author = new Author(authorDTO);
+            var author = new Author(authorDTO.Id, authorDTO.Name);
             return _authorService.Add(author);
         }
 
         [HttpPut("{id}")]
         public Response<Author> Put(int id, [FromBody]AuthorDTO authorDTO)
         {
-            authorDTO.AuthorId = id;
-            var author = new Author(authorDTO);
+            var author = new Author(id, authorDTO.Name);
 
             return _authorService.Update(author);
         }
@@ -42,8 +41,7 @@ namespace Library.Controllers
         [HttpDelete("{id}")]
         public Response<Author> Delete(int id, [FromBody]AuthorDTO authorDTO)
         {
-            authorDTO.AuthorId = id;
-            var author = new Author(authorDTO);
+            var author = new Author(id, authorDTO.Name);
 
             return _authorService.Remove(author);
         }
