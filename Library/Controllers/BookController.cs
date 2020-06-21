@@ -25,25 +25,21 @@ namespace Library.Controllers
         [HttpPost]
         public Response<Book> Post([FromBody]BookDTO bookDTO)
         {
-            var book = new Book(bookDTO);
+            var book = new Book(bookDTO.Id, bookDTO.Name, bookDTO.AuthorId, bookDTO.BookCategoryId, bookDTO.ApplicationUserId);
             return _bookService.Add(book);
         }
 
         [HttpPut("{id}")]
         public Response<Book> Put(int id, [FromBody]BookDTO bookDTO)
         {
-            bookDTO..IId = id;
-            var book = new Book(bookDTO);
-
+            var book = new Book(id, bookDTO.Name, bookDTO.AuthorId, bookDTO.BookCategoryId, bookDTO.ApplicationUserId);
             return _bookService.Update(book);
         }
 
         [HttpDelete("{id}")]
         public Response<Book> Delete(int id, [FromBody] BookDTO bookDTO)
         {
-            bookDTO..IId = id;
-            var book = new Book(bookDTO);
-
+            var book = new Book(id, bookDTO.Name, bookDTO.AuthorId, bookDTO.BookCategoryId, bookDTO.ApplicationUserId);
             return _bookService.Remove(book);
         }
     }
